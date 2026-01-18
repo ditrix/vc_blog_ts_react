@@ -7,9 +7,13 @@ import { ChevronLeft } from 'lucide-react'
 export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const post = await prisma.post.findUnique({
-    where: { id: parseInt(id) },
+    where: { 
+      id: parseInt(id),
+      published: true 
+    },
     include: {
       comments: {
+        where: { published: true },
         orderBy: { createdAt: 'desc' },
       },
     },

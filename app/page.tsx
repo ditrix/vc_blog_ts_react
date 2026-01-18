@@ -4,6 +4,7 @@ import { ChevronRight } from 'lucide-react'
 
 export default async function Home() {
   const posts = await prisma.post.findMany({
+    where: { published: true },
     orderBy: { createdAt: 'desc' },
   })
 
