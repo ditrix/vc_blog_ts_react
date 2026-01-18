@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* iOS System Gray 6 (Background) */
+    --background: 240 5% 96%;
+    --foreground: 0 0% 0%;
+    
+    /* iOS System White (Secondary Background) */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    
+    /* iOS System Blue */
+    --primary: 211 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 240 5% 90%;
+    --secondary-foreground: 0 0% 15%;
+    
+    /* iOS System Gray 4 */
+    --muted: 240 5% 90%;
+    --muted-foreground: 240 2% 45%;
+    
+    --accent: 240 5% 90%;
+    --accent-foreground: 211 100% 50%;
+    
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 240 5% 85%;
+    --input: 240 5% 85%;
+    --ring: 211 100% 50%;
+    
+    /* More pronounced iOS-style radius */
+    --radius: 1.25rem;
+  }
+
+  .dark {
+    /* iOS Dark System Background */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    
+    /* iOS Dark System Gray 6 */
+    --card: 240 3% 12%;
+    --card-foreground: 0 0% 100%;
+    
+    --popover: 240 3% 12%;
+    --popover-foreground: 0 0% 100%;
+    
+    /* iOS System Blue (Dark) */
+    --primary: 211 100% 60%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 240 3% 20%;
+    --secondary-foreground: 0 0% 90%;
+    
+    --muted: 240 3% 20%;
+    --muted-foreground: 240 2% 65%;
+    
+    --accent: 240 3% 20%;
+    --accent-foreground: 211 100% 60%;
+    
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 240 3% 25%;
+    --input: 240 3% 25%;
+    --ring: 211 100% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary/20;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* iOS Glassmorphism */
+.glass {
+  @apply bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60;
+}
+
+/* iOS Shadow */
+.ios-shadow {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.dark .ios-shadow {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
