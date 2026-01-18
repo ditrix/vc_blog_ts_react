@@ -4,97 +4,124 @@
 
 @layer base {
   :root {
-    /* iOS System Gray 6 (Background) */
-    --background: 240 5% 96%;
+    --background: 60 100% 97%; /* Off-white yellowish */
     --foreground: 0 0% 0%;
     
-    /* iOS System White (Secondary Background) */
-    --card: 0 0% 100%;
+    --card: 60 100% 99%;
     --card-foreground: 0 0% 0%;
     
-    --popover: 0 0% 100%;
+    --popover: 60 100% 99%;
     --popover-foreground: 0 0% 0%;
     
-    /* iOS System Blue */
-    --primary: 211 100% 50%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 60 100% 50%; /* Bright Yellow */
+    --primary-foreground: 0 0% 0%;
     
-    --secondary: 240 5% 90%;
-    --secondary-foreground: 0 0% 15%;
+    --secondary: 180 100% 50%; /* Cyan */
+    --secondary-foreground: 0 0% 0%;
     
-    /* iOS System Gray 4 */
-    --muted: 240 5% 90%;
-    --muted-foreground: 240 2% 45%;
+    --muted: 60 10% 90%;
+    --muted-foreground: 0 0% 20%;
     
-    --accent: 240 5% 90%;
-    --accent-foreground: 211 100% 50%;
+    --accent: 300 100% 50%; /* Pink */
+    --accent-foreground: 0 0% 0%;
     
     --destructive: 0 100% 50%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 240 5% 85%;
-    --input: 240 5% 85%;
-    --ring: 211 100% 50%;
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --ring: 0 0% 0%;
     
-    /* More pronounced iOS-style radius */
-    --radius: 1.25rem;
+    --radius: 0px; /* Neo-brutalism loves sharp corners */
   }
 
   .dark {
-    /* iOS Dark System Background */
-    --background: 0 0% 0%;
+    --background: 0 0% 10%;
     --foreground: 0 0% 100%;
     
-    /* iOS Dark System Gray 6 */
-    --card: 240 3% 12%;
+    --card: 0 0% 15%;
     --card-foreground: 0 0% 100%;
     
-    --popover: 240 3% 12%;
-    --popover-foreground: 0 0% 100%;
+    --primary: 60 100% 50%;
+    --primary-foreground: 0 0% 0%;
     
-    /* iOS System Blue (Dark) */
-    --primary: 211 100% 60%;
-    --primary-foreground: 0 0% 100%;
+    --secondary: 180 100% 50%;
+    --secondary-foreground: 0 0% 0%;
     
-    --secondary: 240 3% 20%;
-    --secondary-foreground: 0 0% 90%;
-    
-    --muted: 240 3% 20%;
-    --muted-foreground: 240 2% 65%;
-    
-    --accent: 240 3% 20%;
-    --accent-foreground: 211 100% 60%;
-    
-    --destructive: 0 100% 60%;
-    --destructive-foreground: 0 0% 100%;
-    
-    --border: 240 3% 25%;
-    --input: 240 3% 25%;
-    --ring: 211 100% 60%;
+    --border: 0 0% 100%;
+    --input: 0 0% 100%;
+    --ring: 0 0% 100%;
   }
 }
 
 @layer base {
   * {
     @apply border-border;
-    -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/20;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    @apply bg-background text-foreground antialiased;
   }
 }
 
-/* iOS Glassmorphism */
-.glass {
-  @apply bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60;
+/* Neo-Brutalism Common Classes */
+.neo-border {
+  border: 4px solid black;
 }
 
-/* iOS Shadow */
-.ios-shadow {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.dark .neo-border {
+  border: 4px solid white;
 }
 
-.dark .ios-shadow {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+.neo-shadow {
+  box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+}
+
+.dark .neo-shadow {
+  box-shadow: 8px 8px 0px 0px rgba(255,255,255,1);
+}
+
+.neo-shadow-sm {
+  box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+}
+
+.dark .neo-shadow-sm {
+  box-shadow: 4px 4px 0px 0px rgba(255,255,255,1);
+}
+
+.neo-press {
+  @apply transition-all active:translate-x-[4px] active:translate-y-[4px] active:shadow-none;
+}
+
+/* TipTap Editor Styles */
+.ProseMirror {
+  outline: none !important;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Neo-Brutalism Typography */
+.prose-neo h2 {
+  @apply text-[32px] font-black mt-10 mb-6 uppercase tracking-tighter bg-primary inline-block px-2 neo-border;
+}
+
+.prose-neo h3 {
+  @apply text-[24px] font-black mt-8 mb-4 uppercase tracking-tighter bg-secondary inline-block px-2 neo-border;
+}
+
+.prose-neo p {
+  @apply mb-6 text-[18px] leading-[1.6] font-medium;
+}
+
+.prose-neo ul {
+  @apply list-disc list-inside mb-6 space-y-3 font-medium;
+}
+
+.prose-neo ol {
+  @apply list-decimal list-inside mb-6 space-y-3 font-medium;
 }

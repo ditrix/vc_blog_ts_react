@@ -2,7 +2,8 @@ import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import CommentForm from '@/components/CommentForm'
 import Link from 'next/link'
-import { ChevronLeft } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
+import Image from 'next/image'
 
 export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -24,57 +25,66 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
   }
 
   return (
-    <article className="max-w-2xl mx-auto pb-20 pt-6 px-4 sm:px-6">
+    <article className="max-w-4xl mx-auto pb-24 pt-12 px-4 sm:px-6">
       <Link 
         href="/" 
-        className="inline-flex items-center text-primary text-[17px] mb-6 active:opacity-50 transition-opacity"
+        className="inline-flex items-center gap-2 bg-secondary px-4 py-2 neo-border neo-shadow-sm neo-press text-[16px] font-black uppercase tracking-tighter mb-12"
       >
-        <ChevronLeft className="h-5 w-5 -ml-1" />
-        <span>Назад</span>
+        <ArrowLeft className="h-5 w-5 stroke-[3px]" />
+        <span>Go Back</span>
       </Link>
 
-      <header className="mb-8">
-        <div className="flex items-center gap-2 mb-2">
-          <time className="text-[13px] font-semibold text-primary uppercase tracking-wide">
-            {new Date(post.createdAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}
-          </time>
-        </div>
-        <h1 className="text-[34px] font-bold leading-tight text-foreground tracking-tight">
+      <header className="mb-12">
+        <time className="text-[16px] font-black bg-accent px-3 py-1 neo-border inline-block mb-6 uppercase tracking-tighter">
+          {new Date(post.createdAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}
+        </time>
+        <h1 className="text-[56px] font-black leading-[0.95] text-foreground tracking-tighter uppercase mb-12">
           {post.title}
         </h1>
+        
+        {post.imagePath && (
+          <div className="relative aspect-[21/9] w-full neo-border neo-shadow overflow-hidden mb-16">
+            <Image
+              src={`/uploads/${post.imagePath}-middle.webp`}
+              alt={post.title}
+              fill
+              priority
+              className="object-cover"
+            />
+          </div>
+        )}
       </header>
 
-      <div className="text-[19px] leading-[1.5] text-foreground/90 space-y-5 mb-16 px-1">
-        {post.content.split('\n').map((paragraph, i) => (
-          <p key={i}>
-            {paragraph}
-          </p>
-        ))}
-      </div>
+      <div 
+        className="text-[20px] leading-[1.6] text-foreground font-medium mb-24 px-1 prose-neo max-w-none"
+        dangerouslySetInnerHTML={{ __html: post.content }}
+      />
 
-      <section className="bg-card rounded-[24px] p-6 ios-shadow">
-        <h2 className="text-[22px] font-bold mb-6 px-1">
-          Комментарии <span className="text-muted-foreground font-medium ml-1">{post.comments.length}</span>
+      <section className="bg-background neo-border neo-shadow p-8 md:p-12">
+        <h2 className="text-[40px] font-black uppercase tracking-tighter mb-12 bg-primary inline-block px-4 py-1 neo-border">
+          Comments ({post.comments.length})
         </h2>
         
-        <div className="mb-10">
+        <div className="mb-16">
           <CommentForm postId={post.id} />
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-8">
           {post.comments.map((comment) => (
-            <div key={comment.id} className="bg-background/50 rounded-[18px] p-4 border border-border/30">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-[15px] font-bold text-foreground">{comment.author}</span>
-                <time className="text-[12px] text-muted-foreground">
+            <div key={comment.id} className="bg-card neo-border neo-shadow-sm p-6">
+              <div className="flex justify-between items-center mb-4 border-b-[2px] border-black dark:border-white pb-2">
+                <span className="text-[18px] font-black uppercase tracking-tighter">{comment.author}</span>
+                <time className="text-[14px] font-bold text-muted-foreground uppercase">
                   {new Date(comment.createdAt).toLocaleDateString('ru-RU')}
                 </time>
               </div>
-              <p className="text-[15px] text-foreground/80 leading-snug">{comment.content}</p>
+              <p className="text-[17px] font-medium leading-relaxed">{comment.content}</p>
             </div>
           ))}
           {post.comments.length === 0 && (
-            <p className="text-muted-foreground text-[15px] italic text-center py-4">Нет комментариев</p>
+            <div className="text-center py-12 bg-secondary/10 neo-border border-dashed">
+              <p className="text-[18px] font-black uppercase tracking-tighter italic">Be the first to speak.</p>
+            </div>
           )}
         </div>
       </section>

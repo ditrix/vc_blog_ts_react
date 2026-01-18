@@ -2,15 +2,22 @@
 
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
+import { saveImage, deleteImage } from '@/lib/images'
 
 // Посты
 export async function createPost(formData: FormData) {
   const title = formData.get('title') as string
   const content = formData.get('content') as string
   const published = formData.get('published') === 'true'
+  const imageFile = formData.get('image') as File | null
+
+  let imagePath = null
+  if (imageFile && imageFile.size > 0) {
+    imagePath = await saveImage(imageFile)
+  }
 
   await prisma.post.create({
-    data: { title, content, published }
+    data: { title, content, published, imagePath }
   })
   revalidatePath('/adm/posts')
   revalidatePath('/')
@@ -20,10 +27,26 @@ export async function updatePost(id: number, formData: FormData) {
   const title = formData.get('title') as string
   const content = formData.get('content') as string
   const published = formData.get('published') === 'true'
+  const imageFile = formData.get('image') as File | null
+  const deleteCurrentImage = formData.get('deleteCurrentImage') === 'true'
+
+  const currentPost = await prisma.post.findUnique({ where: { id } })
+  let imagePath = currentPost?.imagePath
+
+  if (deleteCurrentImage || (imageFile && imageFile.size > 0)) {
+    if (currentPost?.imagePath) {
+      await deleteImage(currentPost.imagePath)
+    }
+    imagePath = null
+  }
+
+  if (imageFile && imageFile.size > 0) {
+    imagePath = await saveImage(imageFile)
+  }
 
   await prisma.post.update({
     where: { id },
-    data: { title, content, published }
+    data: { title, content, published, imagePath }
   })
   revalidatePath('/adm/posts')
   revalidatePath(`/post/${id}`)
@@ -31,6 +54,11 @@ export async function updatePost(id: number, formData: FormData) {
 }
 
 export async function deletePost(id: number) {
+  const post = await prisma.post.findUnique({ where: { id } })
+  if (post?.imagePath) {
+    await deleteImage(post.imagePath)
+  }
+  
   await prisma.post.delete({ where: { id } })
   revalidatePath('/adm/posts')
   revalidatePath('/')
@@ -66,8 +94,7 @@ export async function deleteComment(id: number) {
 // Настройки
 export async function changeAdminPassword(formData: FormData) {
   const newPassword = formData.get('password') as string
-  // В данной реализации мы просто имитируем, так как используем фиксированный логин
-  // В реальности здесь было бы обновление в БД
+  // В данной реализации мы просто имитируем
   console.log('Password changed to:', newPassword)
   return { success: true }
 }

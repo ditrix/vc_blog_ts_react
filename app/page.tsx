@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
-import { ChevronRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 
 export default async function Home() {
   const posts = await prisma.post.findMany({
@@ -9,51 +10,63 @@ export default async function Home() {
   })
 
   return (
-    <div className="max-w-2xl mx-auto py-8 px-4 sm:px-6">
-      <header className="mb-10">
-        <h1 className="text-[34px] font-bold tracking-tight text-foreground px-1">
-          Обзор
+    <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6">
+      <header className="mb-16">
+        <h1 className="text-[64px] font-black uppercase tracking-tighter leading-none text-foreground">
+          LATEST<br />
+          <span className="bg-accent px-4 py-2 neo-border neo-shadow inline-block mt-2">STORIES.</span>
         </h1>
       </header>
 
-      <div className="space-y-4">
+      <div className="grid gap-12 md:grid-cols-2">
         {posts.map((post) => (
           <Link 
             key={post.id} 
             href={`/post/${post.id}`}
-            className="group block active:scale-[0.98] transition-all duration-200"
+            className="group block neo-press"
           >
             <article 
-              className="bg-card text-card-foreground p-5 rounded-[20px] ios-shadow border-none flex items-center justify-between"
+              className="bg-card text-card-foreground neo-border neo-shadow overflow-hidden h-full flex flex-col"
             >
-              <div className="flex-1 pr-4">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-primary/80">
-                    Статья
+              {post.imagePath && (
+                <div className="relative aspect-[16/9] w-full border-b-[4px] border-black dark:border-white overflow-hidden">
+                  <Image
+                    src={`/uploads/${post.imagePath}-low.webp`}
+                    alt={post.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+              <div className="p-6 flex-1 flex flex-col">
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-[12px] font-black uppercase tracking-widest bg-secondary px-2 py-0.5 neo-border">
+                    Post
                   </span>
-                  <span className="text-[11px] text-muted-foreground">
-                    •
-                  </span>
-                  <time className="text-[11px] font-medium text-muted-foreground">
-                    {new Date(post.createdAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}
+                  <time className="text-[14px] font-bold text-muted-foreground uppercase">
+                    {new Date(post.createdAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}
                   </time>
                 </div>
-                <h2 className="text-[19px] font-semibold leading-tight text-foreground group-hover:text-primary transition-colors">
+                <h2 className="text-[28px] font-black leading-tight text-foreground uppercase tracking-tighter mb-4 group-hover:underline decoration-[6px] decoration-primary">
                   {post.title}
                 </h2>
-                <p className="mt-2 text-[15px] text-muted-foreground line-clamp-2 leading-snug">
-                  {post.content}
-                </p>
+                <div 
+                  className="mt-auto text-[16px] font-medium text-foreground/80 line-clamp-3 mb-6"
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
+                <div className="mt-auto pt-6 border-t-[4px] border-black dark:border-white flex items-center justify-between group-hover:bg-primary transition-colors p-2 -mx-6 -mb-6">
+                  <span className="font-black uppercase tracking-tighter text-[18px]">Read more</span>
+                  <ArrowRight className="h-6 w-6 stroke-[3px]" />
+                </div>
               </div>
-              <ChevronRight className="h-5 w-5 text-muted-foreground/50 shrink-0" />
             </article>
           </Link>
         ))}
       </div>
 
       {posts.length === 0 && (
-        <div className="text-center py-20">
-          <p className="text-muted-foreground text-[17px]">Постов пока нет</p>
+        <div className="text-center py-24 bg-card neo-border neo-shadow">
+          <p className="text-[24px] font-black uppercase tracking-tighter">No stories found yet.</p>
         </div>
       )}
     </div>

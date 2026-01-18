@@ -3,19 +3,15 @@ import ThemeToggle from "./ThemeToggle"
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full glass border-b border-border/40">
-      <div className="container mx-auto flex h-14 max-w-4xl items-center justify-between px-4 sm:px-6">
-        <div className="flex-1">
-          {/* Left spacer for symmetry if needed */}
-        </div>
-        
-        <Link href="/" className="flex items-center">
-          <span className="font-semibold text-[17px] tracking-tight text-foreground">
-            Блог
+    <header className="sticky top-0 z-50 w-full bg-background border-b-[4px] border-black dark:border-white">
+      <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between px-4 sm:px-6">
+        <Link href="/" className="neo-press">
+          <span className="font-black text-[28px] uppercase tracking-tighter bg-primary px-4 py-1 neo-border neo-shadow-sm">
+            BLOG.
           </span>
         </Link>
         
-        <div className="flex flex-1 items-center justify-end">
+        <div className="flex items-center gap-4">
           <ThemeToggle />
         </div>
       </div>

@@ -12,39 +12,39 @@ export default function CommentForm({ postId }: { postId: number }) {
   }
 
   return (
-    <form ref={formRef} action={action} className="space-y-4">
+    <form ref={formRef} action={action} className="space-y-8">
       <input type="hidden" name="postId" value={postId} />
-      <div className="space-y-1.5">
-        <label htmlFor="author" className="block text-[13px] font-semibold text-muted-foreground ml-3 uppercase tracking-wider">
-          Имя
+      <div className="space-y-2">
+        <label htmlFor="author" className="block text-[16px] font-black uppercase tracking-tighter ml-1">
+          Your Name
         </label>
         <input
           type="text"
           name="author"
           id="author"
           required
-          placeholder="Как вас зовут?"
-          className="w-full bg-background border-none rounded-[14px] p-3 text-[17px] focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-muted-foreground/50"
+          placeholder="Who are you?"
+          className="w-full bg-background neo-border p-4 text-[18px] font-bold focus:bg-primary transition-colors placeholder:text-muted-foreground/50"
         />
       </div>
-      <div className="space-y-1.5">
-        <label htmlFor="content" className="block text-[13px] font-semibold text-muted-foreground ml-3 uppercase tracking-wider">
-          Сообщение
+      <div className="space-y-2">
+        <label htmlFor="content" className="block text-[16px] font-black uppercase tracking-tighter ml-1">
+          Message
         </label>
         <textarea
           name="content"
           id="content"
-          rows={3}
+          rows={4}
           required
-          placeholder="Напишите комментарий..."
-          className="w-full bg-background border-none rounded-[14px] p-3 text-[17px] focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-muted-foreground/50 resize-none"
+          placeholder="Say something bold..."
+          className="w-full bg-background neo-border p-4 text-[18px] font-bold focus:bg-secondary transition-colors placeholder:text-muted-foreground/50 resize-none"
         ></textarea>
       </div>
       <button
         type="submit"
-        className="w-full bg-primary text-white py-3.5 rounded-[14px] text-[17px] font-semibold active:scale-[0.98] active:opacity-90 transition-all ios-shadow"
+        className="w-full bg-accent text-foreground py-5 neo-border neo-shadow neo-press text-[20px] font-black uppercase tracking-tighter"
       >
-        Отправить
+        Post Comment
       </button>
     </form>
   )
