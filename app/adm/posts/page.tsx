@@ -45,8 +45,11 @@ export default async function AdminPostsPage() {
                   'use server'
                   await togglePostPublish(post.id, !post.published)
                 }}>
-                  <button className="p-2 rounded-full hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground">
-                    {post.published ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  <button 
+                    title={post.published ? "Снять с публикации" : "Опубликовать"}
+                    className="p-2 rounded-full hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"
+                  >
+                    {post.published ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
                   </button>
                 </form>
                 

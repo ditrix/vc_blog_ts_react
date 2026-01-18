@@ -39,8 +39,11 @@ export default async function AdminCommentsPage() {
                   'use server'
                   await toggleCommentPublish(comment.id, !comment.published)
                 }}>
-                  <button className="p-2 rounded-full hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground">
-                    {comment.published ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  <button 
+                    title={comment.published ? "Скрыть" : "Опубликовать"}
+                    className="p-2 rounded-full hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"
+                  >
+                    {comment.published ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
                   </button>
                 </form>
                 

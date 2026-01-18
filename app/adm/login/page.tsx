@@ -3,9 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { login } from '@/lib/auth'
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
+  const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
 
   async function handleSubmit(formData: FormData) {
@@ -20,45 +22,54 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center px-4">
-      <div className="w-full max-w-sm bg-card p-8 rounded-[24px] ios-shadow border border-border/40">
-        <h1 className="text-[28px] font-bold text-center mb-8">Вход в админку</h1>
+      <div className="w-full max-w-sm bg-card p-8 neo-border neo-shadow">
+        <h1 className="text-[32px] font-black uppercase tracking-tighter text-center mb-10">Вход.</h1>
         
-        <form action={handleSubmit} className="space-y-6">
-          <div className="space-y-1.5">
-            <label className="text-[13px] font-semibold text-muted-foreground ml-3 uppercase tracking-wider">
+        <form action={handleSubmit} className="space-y-8">
+          <div className="space-y-2">
+            <label className="text-[14px] font-black uppercase tracking-tighter ml-1">
               Email
             </label>
             <input
               name="email"
               type="email"
               required
-              className="w-full bg-background border-none rounded-[14px] p-3 text-[17px] focus:ring-2 focus:ring-primary/20 transition-all"
+              className="w-full bg-background neo-border p-4 text-[18px] font-bold focus:bg-primary transition-colors"
               placeholder="admin@mail.com"
             />
           </div>
           
-          <div className="space-y-1.5">
-            <label className="text-[13px] font-semibold text-muted-foreground ml-3 uppercase tracking-wider">
+          <div className="space-y-2">
+            <label className="text-[14px] font-black uppercase tracking-tighter ml-1">
               Пароль
             </label>
-            <input
-              name="password"
-              type="password"
-              required
-              className="w-full bg-background border-none rounded-[14px] p-3 text-[17px] focus:ring-2 focus:ring-primary/20 transition-all"
-              placeholder="••••••••"
-            />
+            <div className="relative">
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                required
+                className="w-full bg-background neo-border p-4 text-[18px] font-bold focus:bg-secondary transition-colors"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-black/5 rounded-md transition-colors"
+              >
+                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              </button>
+            </div>
           </div>
 
           {error && (
-            <p className="text-destructive text-sm text-center font-medium bg-destructive/10 py-2 rounded-[10px]">
+            <div className="bg-destructive text-white p-3 neo-border text-center font-black uppercase tracking-tighter text-sm">
               {error}
-            </p>
+            </div>
           )}
 
           <button
             type="submit"
-            className="w-full bg-primary text-white py-3.5 rounded-[14px] text-[17px] font-semibold active:scale-[0.98] transition-all ios-shadow"
+            className="w-full bg-accent text-foreground py-5 neo-border neo-shadow neo-press text-[20px] font-black uppercase tracking-tighter"
           >
             Войти
           </button>
